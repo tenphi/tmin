@@ -1,4 +1,6 @@
-// t.js - easy DOM content generator
+// tmin.js - easy DOM content generator
+'use strict';
+
 (function(w, $) {
 
   // properly-cased attribute names for IE setAttribute support
@@ -91,13 +93,15 @@
     };
 
     $t._ = t._;
+    $t.t = t;
+    t.$t = $t;
   }
 
   function templateArg (node, arg) {
     var ret = '', attr;
 
     // if arg is undefined or null
-    if (skippable(arg)) {
+    if (arg == null) {
       return '';
     }
 
@@ -123,7 +127,12 @@
 
     // if arg is string or number
     else if (typeof(arg) === 'string' || typeof(arg) === 'number') {
-
+      if (node.lastChild && node.lastChild.nodeType == Node.TEXT_NODE) {
+        node.lastChild.nodeValue += String(arg);
+      } else {
+        node.appendChild(document.createTextNode(arg));
+      }
+      return document.createTextNode(arg);
     }
 
     // if arg is instance of View with jQuery $el
@@ -141,15 +150,30 @@
 
       for (attr in arg) {
         var value = arg[attr];
-        if (!attr || skippable(value) || !arg.hasOwnProperty(attr)) {
+        if (!attr || value == null || !arg.hasOwnProperty(attr)) {
           continue;
         }
+
         attr = attr.toLowerCase();
         attr = attributeMap[attr] || attr;
+
+        if (attr === 'className' && Array.isArray(value)) {
+          value = value.join(' ');
+        }
+
+        if (attr === 'data' && typeof value === 'object') {
+          for (var name in value) {
+            node.setAttribute('data-' + name.replace(/[A-Z]/g, function(s) {
+              return '-' + s.toLowerCase();
+            }), value[name]);
+          }
+          continue;
+        }
+
         if (attr === 'style') {
           for (var name in value) {
             var style = value[name];
-            if (!skippable(style)) {
+            if (style != null) {
               node.style[name] = style;
             }
           }
@@ -197,10 +221,5 @@
   tags.forEach(function(tag) {
     t.addTag(tag);
   });
-
-  // testing for arg
-  function skippable (arg) {
-    return arg === null || arg === undefined || arg === false;
-  }
 
 })(window, window.jQuery);
