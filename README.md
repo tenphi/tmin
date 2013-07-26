@@ -45,21 +45,6 @@ Short usage (if needed)
 t(t.div, t.span);
 ```
 
-jQuery version
-
-```javascript
-$el = $t.div({
-  class: ['class1', 'class2']
-},
-  $t.a({
-      style: {
-        color: 'red'
-      },
-      href: 'example.com'
-  }, 'link')
-);
-```
-
 Data attribute
 
 ```javascript
@@ -78,6 +63,21 @@ output:
 
 ```html
 <div class="user" data-name="Andrey" data-home-address="Moscow"></div>
+```
+
+jQuery version
+
+```javascript
+$el = $t.div({
+  class: ['class1', 'class2']
+},
+  $t.a({
+      style: {
+        color: 'red'
+      },
+      href: 'example.com'
+  }, 'link')
+);
 ```
 
 ## License

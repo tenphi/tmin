@@ -74,13 +74,6 @@
     return fragment;
   };
 
-  // method for string escaping
-  t._ = function escape (text) {
-    return String(text).replace(/[&<>"'\/]/g, function (s) {
-      return escapeMap[s];
-    });
-  };
-
   // jQuery wrappers
   if ($) {
     var $t = w.$t = function jqueryCollection () {
@@ -92,7 +85,6 @@
       return container.children().detach();
     };
 
-    $t._ = t._;
     $t.t = t;
     t.$t = $t;
   }
