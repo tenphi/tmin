@@ -54,16 +54,6 @@
     'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr',
     'ul', 'var', 'video', 'wbr'].concat(deprecatedTags);
 
-  // map for string escaping
-  var escapeMap = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '/': '&#x2F;'
-  };
-
   var toHTML = function toHTML (element) {
     var div = document.createElement('div');
     div.appendChild(element);

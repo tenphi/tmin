@@ -54,16 +54,6 @@
     'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr',
     'ul', 'var', 'video', 'wbr'].concat(deprecatedTags);
 
-  // map for string escaping
-  var escapeMap = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '/': '&#x2F;'
-  };
-
   if (!w.tmin)
     w.tmin = {};
 
