@@ -11,6 +11,7 @@ files = [
   JASMINE,
   JASMINE_ADAPTER,
   'tmin.js',
+  'tmin.html.js',
   'tminSpec.js'
 ];
 

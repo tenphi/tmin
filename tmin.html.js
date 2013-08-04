@@ -64,35 +64,27 @@
     '/': '&#x2F;'
   };
 
+  var toHTML = function toHTML (element) {
+    var div = document.createElement('div');
+    div.appendChild(element);
+    return div.innerHTML;
+  };
+
   if (!w.tmin)
     w.tmin = {};
 
   // templating whole fragment. returns DocumentFragment Object.
   var t = w.t = function templateFragment () {
-    var args = [].slice.call(arguments, 0);
-    var fragment = document.createDocumentFragment();
+    var args = [].slice.call(arguments, 0), div;
+    var fragment = '';
     for (var i = 0; i < args.length; i++) {
-      templateArg(fragment, templateArg(fragment, args[i]));
+      div = document.createElement('div');
+      fragment += templateArg(div, args[i]);
     }
     return fragment;
   };
 
-  w.tmin.dom = t;
-
-  // jQuery wrappers
-  if ($) {
-    var $t = w.$t = function jqueryCollection () {
-      var args = [].slice.call(arguments, 0);
-      var container = $(document.createElement('div'));
-      for (var i = 0; i < args.length; i++) {
-        templateArg(container.get(0), args[i]);
-      }
-      return container.children().detach();
-    };
-
-    $t.t = t;
-    t.$t = $t;
-  }
+  w.tmin.html = t;
 
   function templateArg (node, arg) {
     var ret = '', attr;
@@ -124,12 +116,7 @@
 
     // if arg is string or number
     else if (typeof(arg) === 'string' || typeof(arg) === 'number') {
-      if (node.lastChild && node.lastChild.nodeType == Node.TEXT_NODE) {
-        node.lastChild.nodeValue += String(arg);
-      } else {
-        node.appendChild(document.createTextNode(arg));
-      }
-      return document.createTextNode(arg);
+      ret = arg;
     }
 
     // if arg is instance of View with jQuery $el
@@ -197,7 +184,11 @@
       if (ret.parentNode) {
         ret.parentNode.removeChild(ret);
       }
-      node.appendChild(ret);
+      if (typeof ret === 'string') {
+        node.innerHTML += ret;
+      } else {
+        node.appendChild(ret);
+      }
     }
 
     return ret;
@@ -210,13 +201,8 @@
       [].slice.call(arguments, 0).forEach(function (arg) {
         templateArg(node, arg);
       });
-      return node;
+      return toHTML(node);
     };
-    if ($) {
-      $t[tag] = function () {
-        return $(t[tag].apply(null, arguments));
-      };
-    }
   };
 
   // create tag handlers
