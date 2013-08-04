@@ -5,6 +5,14 @@ Easy DOM content generator
 
 inspired by [laconic.js](https://github.com/joestelmach/laconic) and client-side template engine by [ivan4th](https://github.com/ivan4th)
 
+## Install
+
+by bower
+
+```bash
+bower install tmin
+```
+
 ## Usage
 
 Fast and clean elements creation
