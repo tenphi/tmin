@@ -58,7 +58,7 @@
     w.tmin = {};
 
   // templating whole fragment. returns DocumentFragment Object.
-  var t = w.t = function templateFragment () {
+  var t = function templateFragment () {
     var args = [].slice.call(arguments, 0);
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < args.length; i++) {
