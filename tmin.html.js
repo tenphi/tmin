@@ -106,7 +106,7 @@
 
     // if arg is string or number
     else if (typeof(arg) === 'string' || typeof(arg) === 'number') {
-      ret = arg;
+      ret = String(arg);
     }
 
     // if arg is instance of View with jQuery $el
