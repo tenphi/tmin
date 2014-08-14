@@ -16,7 +16,7 @@
     "generator"
   ],
   "devDependencies": {
-    "karma": "*"
+    "karma": "~0.8.0"
   },
   "author": "Andrey Yamanov (tenphi)",
   "license": "MIT",
